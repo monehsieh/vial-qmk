@@ -73,6 +73,10 @@ tags
 *.jpg
 *.png
 
+# monehsieh: Do not check in monenumpad to vial.  The source is kept in a different repo
+/keyboards/monenumpad/
+
+
 # Things Travis sees
 /.vs
 id_rsa_*
