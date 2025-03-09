@@ -5,7 +5,11 @@
   "lighting": "none",
   "customKeycodes": [
     {"name": "DPI Config", "title": "DPI Config", "shortName": "DPI"},
-    {"name": "Drag Scroll", "title": "Drag Scroll", "shortName": "Drag\nScrl"}
+    {"name": "Drag Scroll", "title": "Drag Scroll", "shortName": "Drag\nScrl"},
+    {"name": "Mouse Btn 3 Toggle", "title": "Mouse Btn 3 Toggle", "shortName": "MBtn3\nTggle"},
+    {"name": "Mouse Btn 4 Toggle", "title": "Mouse Btn 4 Toggle", "shortName": "MBtn4\nTggle"},
+    {"name": "Mouse Btn 5 Toggle", "title": "Mouse Btn 5 Toggle", "shortName": "MBtn5\nTggle"},
+    {"name": "Mouse Shift+Btn3 Toggle", "title": "Mouse Shift+Btn3 Toggle", "shortName": "SFT\nMBtn3"}
   ],
   "matrix": {"rows": 1, "cols": 6},
   "layouts": {

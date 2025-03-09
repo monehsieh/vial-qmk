@@ -67,6 +67,37 @@ bool  is_scroll_clicked    = false;
 bool  is_drag_scroll       = false;
 float scroll_accumulated_h = 0;
 float scroll_accumulated_v = 0;
+bool is_mouse_button_3_toggle_on  = false;
+bool is_mouse_button_4_toggle_on  = false;
+bool is_mouse_button_5_toggle_on  = false;
+bool is_shift_toggle_on  = false;
+
+void clear_all_toggles(void)
+{
+    is_drag_scroll = false;
+
+    if (is_shift_toggle_on)
+    {
+        //unregister_code(KC_LSFT);
+        unregister_mods(mod_config(MOD_LSFT));
+        is_shift_toggle_on  = false;
+    }
+    if (is_mouse_button_3_toggle_on)
+    {
+        unregister_code(KC_BTN3);
+        is_mouse_button_3_toggle_on  = false;
+    }
+    if (is_mouse_button_4_toggle_on)
+    {
+        unregister_code(KC_BTN4);
+        is_mouse_button_4_toggle_on  = false;
+    }
+    if (is_mouse_button_5_toggle_on)
+    {
+        unregister_code(KC_BTN5);
+        is_mouse_button_5_toggle_on  = false;
+    }
+}
 
 #ifdef ENCODER_ENABLE
 uint16_t lastScroll        = 0; // Previous confirmed wheel event
@@ -158,9 +189,6 @@ report_mouse_t pointing_device_task_kb(report_mouse_t mouse_report) {
         // Clear the X and Y values of the mouse report
         mouse_report.x = 0;
         mouse_report.y = 0;
-
-        mouse_report.x = 0;
-        mouse_report.y = 0;
     }
 
     return pointing_device_task_user(mouse_report);
@@ -187,14 +215,84 @@ bool process_record_kb(uint16_t keycode, keyrecord_t* record) {
         cycle_dpi();
     }
 
-    if (keycode == DRAG_SCROLL) {
-#ifdef PLOOPY_DRAGSCROLL_MOMENTARY
-        is_drag_scroll = record->event.pressed;
-#else
-        if (record->event.pressed) {
-            toggle_drag_scroll();
+    switch (keycode)
+    {
+        case DRAG_SCROLL:
+        {
+    #ifdef PLOOPY_DRAGSCROLL_MOMENTARY
+            is_drag_scroll = record->event.pressed;
+    #else
+            if (record->event.pressed) {
+                clear_all_toggles();
+                toggle_drag_scroll();
+            }
+    #endif
+                break;
         }
-#endif
+        case MOUSE_BUTTON_3_TOGGLE:
+        {
+            if (record->event.pressed) 
+            { 
+                clear_all_toggles();
+                if (! is_mouse_button_3_toggle_on)
+                {
+                    register_code(KC_BTN3);
+                    is_mouse_button_3_toggle_on = true;
+                }
+            }
+            break;
+        }
+        case MOUSE_BUTTON_4_TOGGLE:
+        {
+            if (record->event.pressed) 
+            { 
+                clear_all_toggles();
+                if (! is_mouse_button_4_toggle_on)
+                {
+                    register_code(KC_BTN4);
+                    is_mouse_button_4_toggle_on = true;
+                }
+            }
+            break;
+        }
+        case MOUSE_BUTTON_5_TOGGLE:
+        {
+            if (record->event.pressed) 
+            { 
+                clear_all_toggles();
+                if (! is_mouse_button_5_toggle_on)
+                {
+                    register_code(KC_BTN5);
+                    is_mouse_button_5_toggle_on = true;
+                }
+            }
+            break;
+        }
+        case SHIFT_MOUSE_BUTTON_3_TOGGLE:
+        {
+            if (record->event.pressed) 
+            { 
+                bool is_shift_mouse_button_3_toggle_on = (is_shift_toggle_on && is_mouse_button_3_toggle_on);
+                clear_all_toggles();
+                if (! is_shift_mouse_button_3_toggle_on)
+                {
+                    register_mods(mod_config(MOD_LSFT));
+                    register_code(KC_BTN3);
+                    is_shift_toggle_on = true;
+                    is_mouse_button_3_toggle_on = true;
+                }
+            }
+            break;
+        }
+        default:
+        {
+            //reset all toggles after any other key is pressed
+            if (record->event.pressed) 
+            {
+                clear_all_toggles();
+            }
+            break;
+        }
     }
 
     return true;

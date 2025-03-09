@@ -33,9 +33,19 @@ extern uint16_t          dpi_array[];
 enum ploopy_keycodes {
     DPI_CONFIG = QK_KB_0,
     DRAG_SCROLL,
+    MOUSE_BUTTON_3_TOGGLE,
+    MOUSE_BUTTON_4_TOGGLE,
+    MOUSE_BUTTON_5_TOGGLE,
+    SHIFT_MOUSE_BUTTON_3_TOGGLE,
 };
 
 bool encoder_update_user(uint8_t index, bool clockwise);
 bool encoder_update_kb(uint8_t index, bool clockwise);
 void toggle_drag_scroll(void);
 void cycle_dpi(void);
+
+#define PLOOPY_DRAGSCROLL_INVERT
+#define PLOOPY_DRAGSCROLL_DIVISOR_H  32
+#define PLOOPY_DRAGSCROLL_DIVISOR_V  32
+
+
