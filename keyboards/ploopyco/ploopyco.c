@@ -223,8 +223,15 @@ bool process_record_kb(uint16_t keycode, keyrecord_t* record) {
             is_drag_scroll = record->event.pressed;
     #else
             if (record->event.pressed) {
-                clear_all_toggles();
-                toggle_drag_scroll();
+                if (! is_drag_scroll)
+                {
+                    clear_all_toggles();
+                    is_drag_scroll = true;                    
+                }
+                else
+                {
+                    clear_all_toggles();
+                }
             }
     #endif
                 break;
@@ -233,11 +240,15 @@ bool process_record_kb(uint16_t keycode, keyrecord_t* record) {
         {
             if (record->event.pressed) 
             { 
-                clear_all_toggles();
                 if (! is_mouse_button_3_toggle_on)
                 {
+                    clear_all_toggles();
                     register_code(KC_BTN3);
                     is_mouse_button_3_toggle_on = true;
+                }
+                else 
+                {
+                    clear_all_toggles();
                 }
             }
             break;
@@ -246,11 +257,15 @@ bool process_record_kb(uint16_t keycode, keyrecord_t* record) {
         {
             if (record->event.pressed) 
             { 
-                clear_all_toggles();
                 if (! is_mouse_button_4_toggle_on)
                 {
+                    clear_all_toggles();
                     register_code(KC_BTN4);
                     is_mouse_button_4_toggle_on = true;
+                }
+                else 
+                {
+                    clear_all_toggles();
                 }
             }
             break;
@@ -259,11 +274,15 @@ bool process_record_kb(uint16_t keycode, keyrecord_t* record) {
         {
             if (record->event.pressed) 
             { 
-                clear_all_toggles();
                 if (! is_mouse_button_5_toggle_on)
                 {
+                    clear_all_toggles();
                     register_code(KC_BTN5);
                     is_mouse_button_5_toggle_on = true;
+                }
+                else 
+                {
+                    clear_all_toggles();
                 }
             }
             break;
@@ -273,13 +292,17 @@ bool process_record_kb(uint16_t keycode, keyrecord_t* record) {
             if (record->event.pressed) 
             { 
                 bool is_shift_mouse_button_3_toggle_on = (is_shift_toggle_on && is_mouse_button_3_toggle_on);
-                clear_all_toggles();
                 if (! is_shift_mouse_button_3_toggle_on)
                 {
+                    clear_all_toggles();
                     register_mods(mod_config(MOD_LSFT));
                     register_code(KC_BTN3);
                     is_shift_toggle_on = true;
                     is_mouse_button_3_toggle_on = true;
+                }
+                else 
+                {
+                    clear_all_toggles();
                 }
             }
             break;
